@@ -6,7 +6,7 @@ from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 from twisted.internet.defer import inlineCallbacks
 
-from autobahn.twisted.wamp import ApplicationSession, ApplicationRunner
+from autobahn.twisted.wamp import ApplicationSession
 
 PATH_GPIO = "/sys/class/gpio/gpio{}"
 
@@ -51,8 +51,3 @@ class ClientSession(ApplicationSession):
             reactor.stop()
         except ReactorNotRunning:
             pass
-
-
-if __name__ == '__main__':
-    runner = ApplicationRunner(url="ws://192.168.1.3:8080/ws", realm="realm1")
-    runner.run(ClientSession, auto_reconnect=True)
