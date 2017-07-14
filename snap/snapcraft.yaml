@@ -1,0 +1,19 @@
+name: pigpio
+version: '0.1'
+summary: TBD
+description: |
+  TBD
+
+grade: devel
+confinement: devmode
+
+apps:
+  pigpio:
+    command: python3 -u lib/python3.5/site-packages/pigpio/main.py
+    plugs: [network, network-bind]
+
+parts:
+  pigpio:
+    plugin: python
+    source: .
+    requirements: requirements.txt
