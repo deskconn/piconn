@@ -9,11 +9,22 @@ confinement: devmode
 
 apps:
   pigpio:
-    command: python3 -u lib/python3.5/site-packages/pigpio/main.py
-    plugs: [network, network-bind]
+    command: runner.py
+    plugs: [network]
+    environment:
+      PYTHONPATH: $SNAP/lib/python3.5/site-packages:$PYTHONPATH
 
 parts:
   pigpio:
     plugin: python
     source: .
     requirements: requirements.txt
+  cli:
+    plugin: dump
+    source: .
+    filesets:
+      cli: [bin/runner.py]
+    stage:
+      - $cli
+    organize:
+      runner.py: bin/
