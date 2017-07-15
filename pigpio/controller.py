@@ -37,5 +37,5 @@ def get_state(pin_number):
 
 
 def get_states():
-    all_exported_pins = list(filter(None, [i.replace('gpio', '') for i in os.listdir(PATH_GPIO)]))
+    all_exported_pins = list(filter(None, [i.replace('gpio', '') for i in os.listdir(BASE_GPIO)]))
     return [get_state(pin) for pin in all_exported_pins]
