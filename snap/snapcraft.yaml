@@ -31,4 +31,4 @@ parts:
 
 hooks:
   configure:
-    plugs: []
+    plugs: [network]
