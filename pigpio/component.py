@@ -1,29 +1,11 @@
-import os
-
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 from twisted.internet.defer import inlineCallbacks
 
 from autobahn.twisted.wamp import ApplicationSession
 
-PATH_GPIO = "/sys/class/gpio/gpio{}"
-
-
-def _turn(pin_number, value):
-    path = PATH_GPIO.format(pin_number)
-    if os.path.exists(path):
-        with open(os.path.join(path, 'direction'), 'w') as file:
-            file.write("out")
-        with open(os.path.join(path, 'value'), 'w') as file:
-            file.write(str(value))
-
-
-def turn_on(pin_number):
-    _turn(pin_number, 0)
-
-
-def turn_off(pin_number):
-    _turn(pin_number, 1)
+from pigpio import controller
+from pigpio import wamp_controller
 
 
 class ClientSession(ApplicationSession):
@@ -38,8 +20,11 @@ class ClientSession(ApplicationSession):
     @inlineCallbacks
     def onJoin(self, details):
         self.log.info("Connected:  {details}", details=details)
-        yield self.register(turn_on, "io.crossbar.gpio.turn_on")
-        yield self.register(turn_off, "io.crossbar.gpio.turn_off")
+        gpio_controller = wamp_controller.GPIOController(self)
+        yield self.register(gpio_controller.turn_on, "io.crossbar.gpio.turn_on")
+        yield self.register(gpio_controller.turn_off, "io.crossbar.gpio.turn_off")
+        yield self.register(controller.get_state, "io.crossbar.gpio.get_state")
+        yield self.register(controller.get_states, "io.crossbar.gpio.get_states")
 
     def onLeave(self, details):
         self.log.info("Router session closed ({details})", details=details)
