@@ -28,3 +28,7 @@ parts:
       - $cli
     organize:
       runner.py: bin/
+
+hooks:
+  configure:
+    plugs: []

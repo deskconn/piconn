@@ -1,0 +1,18 @@
+#!/bin/sh
+
+crossbar=$(snapctl get crossbar)
+realm=$(snapctl get realm)
+
+if [ -z $crossbar ]; then
+    crossbar=ws://localhost:8080/ws
+fi
+
+if [ -z $realm ]; then
+    realm=realm1
+fi
+
+echo "[config]" > $SNAP_DATA/config
+echo "crossbar=$crossbar" >> $SNAP_DATA/config
+echo "realm=$realm" >> $SNAP_DATA/config
+
+chmod 600 $SNAP_DATA/config
