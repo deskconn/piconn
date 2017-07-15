@@ -5,30 +5,40 @@ description: |
   TBD
 
 grade: devel
+# Can't access GPIO path in strict confinement
+# inquire from Ubuntu devs if its possible for a
+# confined snap to talk to GPIO on the Raspberry Pi.
 confinement: devmode
 
 apps:
   pigpio:
-    command: runner.py
+    command: runner
     plugs: [network]
     environment:
+      # FIXME: had to export this for our code to read
+      # dependencies installed from requirement.txt.
+      # This should not be needed, inquire Ubuntu guys
+      # on why this is needed and a possible fix.
       PYTHONPATH: $SNAP/lib/python3.5/site-packages
 
 parts:
   pigpio:
     plugin: python
-    source: .
+    source: https://github.com/om26er/wamp-pigpio.git
     requirements: requirements.txt
   cli:
     plugin: dump
     source: .
     filesets:
-      cli: [bin/runner.py]
+      cli: [bin/runner]
     stage:
       - $cli
     organize:
-      runner.py: bin/
+      runner: bin/
 
 hooks:
   configure:
+    # We don't really need this BUT I didn't
+    # find a way for 'configure' hook to
+    # work without a sub item.
     plugs: [network]
