@@ -24,7 +24,7 @@ apps:
 parts:
   pigpio:
     plugin: python
-    source: https://github.com/om26er/wamp-pigpio.git
+    source: .
     requirements: requirements.txt
   cli:
     plugin: dump
