@@ -12,7 +12,7 @@ apps:
     command: runner.py
     plugs: [network]
     environment:
-      PYTHONPATH: $SNAP/lib/python3.5/site-packages:$PYTHONPATH
+      PYTHONPATH: $SNAP/lib/python3.5/site-packages
 
 parts:
   pigpio:
