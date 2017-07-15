@@ -1,6 +1,4 @@
 import os
-import shlex
-import subprocess
 
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
@@ -14,8 +12,10 @@ PATH_GPIO = "/sys/class/gpio/gpio{}"
 def _turn(pin_number, value):
     path = PATH_GPIO.format(pin_number)
     if os.path.exists(path):
-        subprocess.check_call(shlex.split("echo out > {}".format(os.path.join(path, 'direction'))))
-        subprocess.check_call(shlex.split("echo {} > {}".format(value, os.path.join(path, 'value'))))
+        with open(os.path.join(path, 'direction'), 'w') as file:
+            file.write("out")
+        with open(os.path.join(path, 'value'), 'w') as file:
+            file.write(str(value))
 
 
 def turn_on(pin_number):
