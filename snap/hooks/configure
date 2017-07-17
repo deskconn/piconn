@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILE_CONFIG=$SNAP_COMMON/config
+FILE_CONFIG=$SNAP_COMMON/.pigpio.conf
 
 crossbar=$(snapctl get crossbar)
 realm=$(snapctl get realm)
