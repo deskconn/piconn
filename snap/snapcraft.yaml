@@ -25,5 +25,5 @@ hooks:
   configure:
     plugs: [network]
 
-architectures:
-  - armhf
+#architectures:
+#  - armhf

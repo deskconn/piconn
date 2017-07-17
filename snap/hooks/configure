@@ -1,5 +1,7 @@
 #!/bin/sh
 
+FILE_CONFIG=$SNAP_COMMON/config
+
 crossbar=$(snapctl get crossbar)
 realm=$(snapctl get realm)
 
@@ -11,8 +13,8 @@ if [ -z $realm ]; then
     realm=realm1
 fi
 
-echo "[config]" > $SNAP_DATA/config
-echo "crossbar=$crossbar" >> $SNAP_DATA/config
-echo "realm=$realm" >> $SNAP_DATA/config
+echo "[config]" > $FILE_CONFIG
+echo "crossbar=$crossbar" >> $FILE_CONFIG
+echo "realm=$realm" >> $FILE_CONFIG
 
-chmod 600 $SNAP_DATA/config
+chmod 600 $FILE_CONFIG
