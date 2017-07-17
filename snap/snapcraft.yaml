@@ -23,5 +23,5 @@ parts:
     source: .
     requirements: requirements.txt
 
-#architectures:
-#  - armhf
+architectures:
+  - armhf
