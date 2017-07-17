@@ -4,7 +4,7 @@ summary: TBD
 description: |
   TBD
 
-grade: devel
+grade: stable
 # Can't access GPIO path in strict confinement
 # inquire from Ubuntu devs if its possible for a
 # confined snap to talk to GPIO on the Raspberry Pi.
