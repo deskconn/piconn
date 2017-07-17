@@ -21,10 +21,10 @@ class ClientSession(ApplicationSession):
     def onJoin(self, details):
         self.log.info("Connected:  {details}", details=details)
         gpio_controller = wamp_controller.GPIOController(self)
-        yield self.register(gpio_controller.turn_on, "io.crossbar.gpio.turn_on")
-        yield self.register(gpio_controller.turn_off, "io.crossbar.gpio.turn_off")
-        yield self.register(controller.get_state, "io.crossbar.gpio.get_state")
-        yield self.register(controller.get_states, "io.crossbar.gpio.get_states")
+        yield self.register(gpio_controller.turn_on, "io.crossbar.pigpio-wamp.turn_on")
+        yield self.register(gpio_controller.turn_off, "io.crossbar.pigpio-wamp.turn_off")
+        yield self.register(controller.get_state, "io.crossbar.pigpio-wamp.get_state")
+        yield self.register(controller.get_states, "io.crossbar.pigpio-wamp.get_states")
 
     def onLeave(self, details):
         self.log.info("Router session closed ({details})", details=details)
