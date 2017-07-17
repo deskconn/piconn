@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 import configparser
 import os
@@ -8,7 +8,7 @@ from autobahn.twisted.wamp import ApplicationRunner
 from pigpio import component as gpio
 
 
-if __name__ == '__main__':
+def main():
     snap_data = os.environ.get('SNAP_DATA', None)
     if snap_data:
         config = configparser.ConfigParser()
@@ -17,3 +17,7 @@ if __name__ == '__main__':
     else:
         runner = ApplicationRunner(url='ws://localhost:8080/ws', realm='realm1')
     runner.run(gpio.ClientSession, auto_reconnect=True)
+
+
+if __name__ == '__main__':
+    main()

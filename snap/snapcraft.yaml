@@ -12,33 +12,18 @@ confinement: devmode
 
 apps:
   pigpio:
-    command: runner
+    command: pigpio
     plugs: [network]
-    environment:
-      # FIXME: had to export this for our code to read
-      # dependencies installed from requirement.txt.
-      # This should not be needed, inquire Ubuntu guys
-      # on why this is needed and a possible fix.
-      PYTHONPATH: $SNAP/lib/python3.5/site-packages
 
 parts:
   pigpio:
     plugin: python
     source: .
     requirements: requirements.txt
-  cli:
-    plugin: dump
-    source: .
-    filesets:
-      cli: [bin/runner]
-    stage:
-      - $cli
-    organize:
-      runner: bin/
 
 hooks:
   configure:
-    # We don't really need this BUT I didn't
-    # find a way for 'configure' hook to
-    # work without a sub item.
     plugs: [network]
+
+architectures:
+  - armhf

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from distutils.core import setup
+# from setuptools import setup
 
 setup(
     name='pigpio',
@@ -9,4 +10,7 @@ setup(
     author='Omer Akram',
     author_email='omer.akram@crossbario.com',
     packages=['pigpio'],
+    entry_points={
+        'console_scripts': ['pigpio = pigpio.runner:main']
+    },
 )
