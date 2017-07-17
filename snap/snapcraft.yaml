@@ -13,17 +13,15 @@ confinement: devmode
 apps:
   pigpio:
     command: pigpio
-    plugs: [network]
+    daemon: simple
+    plugs:
+      - network
 
 parts:
   pigpio:
     plugin: python
     source: .
     requirements: requirements.txt
-
-hooks:
-  configure:
-    plugs: [network]
 
 #architectures:
 #  - armhf
