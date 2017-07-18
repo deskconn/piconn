@@ -10,7 +10,7 @@ confinement: devmode
 apps:
   pigpio:
     command: pigpio
-    daemon: simple
+#    daemon: simple
     plugs:
       - network
 
@@ -20,5 +20,5 @@ parts:
     source: .
     requirements: requirements.txt
 
-architectures:
-  - armhf
+#architectures:
+#  - armhf
