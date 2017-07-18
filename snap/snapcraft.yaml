@@ -1,13 +1,10 @@
 name: pigpio
 version: '0.2'
-summary: TBD
+summary: Control your Rasbperry Pi's GPIO pins remotely, in real-time
 description: |
   TBD
 
 grade: stable
-# Can't access GPIO path in strict confinement
-# inquire from Ubuntu devs if its possible for a
-# confined snap to talk to GPIO on the Raspberry Pi.
 confinement: devmode
 
 apps:
