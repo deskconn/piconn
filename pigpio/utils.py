@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 
 NAME_CONF_FILE = '.pigpio.conf'
-DIR_SNAP_COMMON = 'SNAP_COMMON'
+DIR_SNAP_COMMON = 'SNAP_DATA'
 
 
 def get_config_path():
