@@ -1,22 +1,12 @@
-from twisted.internet import reactor
-from twisted.internet.error import ReactorNotRunning
-from twisted.internet.defer import inlineCallbacks
-
-from autobahn.twisted.wamp import ApplicationSession
+from autobahn.twisted import wamp
+from twisted.internet import threads
+from twisted.internet.defer import inlineCallbacks, returnValue
 
 from pigpio import controller
 from pigpio import wamp_controller
 
 
-class ClientSession(ApplicationSession):
-    def onConnect(self):
-        self.log.info("Client connected: {klass}", klass=ApplicationSession)
-        self.join(self.config.realm, [u'anonymous'])
-
-    def onChallenge(self, challenge):
-        self.log.info("Challenge for method {authmethod} received", authmethod=challenge.method)
-        raise Exception("We haven't asked for authentication!")
-
+class ClientSession(wamp.ApplicationSession):
     @inlineCallbacks
     def onJoin(self, details):
         self.log.info("Connected:  {details}", details=details)
@@ -30,9 +20,20 @@ class ClientSession(ApplicationSession):
         self.log.info("Router session closed ({details})", details=details)
         self.disconnect()
 
-    def onDisconnect(self):
-        self.log.info("Router connection closed")
-        try:
-            reactor.stop()
-        except ReactorNotRunning:
-            pass
+
+class ServiceDiscoverySession(wamp.ApplicationSession):
+    def __init__(self, config=None):
+        super().__init__(config)
+        self.discovery = controller.ServiceDiscovery()
+
+    @inlineCallbacks
+    def onJoin(self, details):
+        self.log.info('session joined: {}'.format(details))
+        res = yield threads.deferToThread(self.discovery.start_publishing)
+        returnValue(res)
+
+    def onLeave(self, details):
+        self.log.info('session left: {}'.format(details))
+        self.discovery.stop_publishing()
+        self.disconnect()
+

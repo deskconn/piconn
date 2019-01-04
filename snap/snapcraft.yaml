@@ -1,24 +1,32 @@
 name: pigpio
-version: '0.2'
+version: '0.3'
 summary: Control your Rasbperry Pi's GPIO pins remotely, in real-time
 description: |
-  TBD
+  Control your Rasbperry Pi's GPIO pins remotely, in real-time
 
 grade: stable
-confinement: devmode
+confinement: strict
+base: core18
+
+architectures:
+  - build-on: armhf
+    run-on: armhf
 
 apps:
   pigpio:
-    command: pigpio
-#    daemon: simple
+    command: python3 -u $SNAP/run.py
     plugs:
       - network
+      - network-bind
+      - bcm-gpio-21
 
 parts:
+  scripts:
+    plugin: dump
+    source: .
+    prime:
+      - run.py
   pigpio:
     plugin: python
     source: .
     requirements: requirements.txt
-
-#architectures:
-#  - armhf
