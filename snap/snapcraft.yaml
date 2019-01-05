@@ -26,7 +26,10 @@ parts:
     source: .
     prime:
       - run.py
+      - crossbar-config
   pigpio:
     plugin: python
     source: .
     requirements: requirements.txt
+    build-packages:
+      - libffi-dev
