@@ -14,7 +14,7 @@ architectures:
 
 apps:
   pigpio:
-    command: run.py
+    command: python3 -u $SNAP/run.py
     daemon: simple
     restart-condition: never
     plugs:
