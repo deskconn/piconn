@@ -15,10 +15,12 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     if hasattr(args, 'pin_off'):
-        requests.post('http://localhost:5020/call',
-                      json={'procedure': 'org.deskconn.gpio.turn_off', 'args': [args.pin_off]})
+        response = requests.post('http://localhost:5020/call',
+                                 json={'procedure': 'org.deskconn.gpio.turn_off', 'args': [args.pin_off]})
+        print(response.json())
     elif hasattr(args, 'pin_on'):
-        requests.post('http://localhost:5020/call',
-                      json={'procedure': 'org.deskconn.gpio.turn_on', 'args': [args.pin_on]})
+        response = requests.post('http://localhost:5020/call',
+                                 json={'procedure': 'org.deskconn.gpio.turn_on', 'args': [args.pin_on]})
+        print(response.json())
     else:
-        print("Unexpected code path reached")
+        parser.print_help()
