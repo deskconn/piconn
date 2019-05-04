@@ -14,7 +14,11 @@ architectures:
 
 apps:
   pigpio:
-    command: python3 -u $SNAP/run.py
+    command: python3 -u $SNAP/pigpio.py
+    plugs:
+      - gpio
+  pigpiod:
+    command: python3 -u $SNAP/pigpiod.py
     daemon: simple
     restart-condition: never
     plugs:
@@ -27,7 +31,8 @@ parts:
     plugin: dump
     source: .
     prime:
-      - run.py
+      - pigpiod.py
+      - pigpio.py
   pigpio:
     plugin: python
     python-packages:

@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 import os
 
 from autobahn.twisted.component import Component, run
@@ -65,7 +63,7 @@ if __name__ == '__main__':
 
 
     @component.on_join
-    def join(session, details):
+    def join(session, _):
         print("Joined session....")
         session.register(turn_on, "org.deskconn.gpio.turn_on")
         session.register(turn_off, "org.deskconn.gpio.turn_off")
