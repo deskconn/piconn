@@ -35,6 +35,7 @@ parts:
       - pigpio.py
   pigpio:
     plugin: python
+    source: .
     python-packages:
       - autobahn[twisted,serialization]
 
