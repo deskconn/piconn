@@ -38,6 +38,10 @@ parts:
     source: .
     python-packages:
       - autobahn[twisted,serialization]
+    override-prime: |
+      snapcraftctl prime
+      echo "Compiling pyc files..."
+      $SNAPCRAFT_PART_INSTALL/usr/bin/python3 -m compileall -q $SNAPCRAFT_PRIME
 
 plugs:
   deskconn-sock-dir:
