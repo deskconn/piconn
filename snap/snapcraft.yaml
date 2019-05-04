@@ -17,6 +17,7 @@ apps:
     command: python3 -u $SNAP/pigpio.py
     plugs:
       - gpio
+      - network
   pigpiod:
     command: python3 -u $SNAP/pigpiod.py
     daemon: simple
