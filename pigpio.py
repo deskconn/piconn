@@ -1,6 +1,6 @@
 import argparse
 
-import pygpio
+import requests
 
 
 if __name__ == '__main__':
@@ -15,8 +15,10 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     if hasattr(args, 'pin_off'):
-        pygpio.turn_off(args.pin_off)
+        requests.post('http://localhost:5020/call',
+                      json={'procedure': 'org.deskconn.gpio.turn_off', 'args': [args.pin_off]})
     elif hasattr(args, 'pin_on'):
-        pygpio.turn_on(args.pin_on)
+        requests.post('http://localhost:5020/call',
+                      json={'procedure': 'org.deskconn.gpio.turn_on', 'args': [args.pin_on]})
     else:
         print("Unexpected code path reached")

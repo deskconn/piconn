@@ -38,6 +38,7 @@ parts:
     source: .
     python-packages:
       - autobahn[twisted,serialization]
+      - requests
     override-prime: |
       snapcraftctl prime
       echo "Compiling pyc files..."
