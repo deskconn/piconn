@@ -39,6 +39,7 @@ parts:
     source: .
     build-packages:
       - libffi-dev
+      - libssl-dev
     python-packages:
       - autobahn[twisted,serialization]
       - requests
