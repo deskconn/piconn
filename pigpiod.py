@@ -14,7 +14,8 @@ if __name__ == '__main__':
     transport = {
         "type": "rawsocket",
         "url": "ws://localhost/ws",
-        "endpoint": UNIXClientEndpoint(reactor, os.path.join(os.environ['SNAP_COMMON'], 'deskconn.sock'))
+        "endpoint": UNIXClientEndpoint(reactor,
+                                       os.path.join(os.environ['SNAP_COMMON'], 'deskconn.sock'))
     }
 
     component = Component(transports=[transport], realm="deskconn")

@@ -1,2 +1,2 @@
 autobahn[twisted,serialization]
-requests
+twisted

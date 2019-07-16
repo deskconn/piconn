@@ -1,26 +1,38 @@
+import os
 import argparse
 
-import requests
+from autobahn.twisted.component import Component, run
+from twisted.internet.endpoints import UNIXClientEndpoint
+from twisted.internet import reactor
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('pigpio command line')
-    subparsers = parser.add_subparsers()
-
-    on = subparsers.add_parser('on')
-    on.add_argument('pin_on', type=int)
-
-    off = subparsers.add_parser('off')
-    off.add_argument('pin_off', type=int)
-
+    parser.add_argument("state", choices=('on', 'off'))
+    parser.add_argument("pin", type=int)
     args = parser.parse_args()
-    if hasattr(args, 'pin_off'):
-        response = requests.post('http://localhost:5020/call',
-                                 json={'procedure': 'org.deskconn.gpio.turn_off', 'args': [args.pin_off]})
-        print(response.json())
-    elif hasattr(args, 'pin_on'):
-        response = requests.post('http://localhost:5020/call',
-                                 json={'procedure': 'org.deskconn.gpio.turn_on', 'args': [args.pin_on]})
-        print(response.json())
-    else:
-        parser.print_help()
+
+    if os.environ.get("SNAP_NAME") != "pigpio":
+        os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
+
+    transport = {
+        "type": "rawsocket",
+        "url": "ws://localhost/ws",
+        "endpoint": UNIXClientEndpoint(reactor,
+                                       os.path.join(os.environ['SNAP_COMMON'], 'deskconn.sock'))
+    }
+
+    component = Component(transports=[transport], realm="deskconn")
+
+    @component.on_join
+    async def join(session, _):
+        if args.state == 'on':
+            procedure = 'org.deskconn.gpio.turn_on'
+        else:
+            procedure = 'org.deskconn.gpio.turn_off'
+
+        d = session.call(procedure, args.pin)
+        d.addCallback(session.leave)
+        d.addErrback(session.leave)
+
+    run([component])
