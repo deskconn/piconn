@@ -37,6 +37,8 @@ parts:
   pigpio:
     plugin: python
     source: .
+    build-packages:
+      - libffi-dev
     python-packages:
       - autobahn[twisted,serialization]
       - requests
