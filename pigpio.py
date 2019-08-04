@@ -19,8 +19,7 @@ if __name__ == '__main__':
         "type": "rawsocket",
         "url": "ws://localhost/ws",
         "endpoint": UNIXClientEndpoint(reactor,
-                                       os.path.join(os.path.expandvars('$SNAP_COMMON/deskconnd-sock-dir'),
-                                                    'deskconn.sock')),
+                                       os.path.join(os.path.expandvars('$SNAP_COMMON'), 'deskconn.sock')),
         "serializer": "cbor",
     }
 
