@@ -50,7 +50,7 @@ parts:
 
 plugs:
   deskconn-sock-dir:
-    interface: content
     content: socket-directory
-    default-provider: deskconn:deskconn-sock-dir
+    default-provider: deskconnd:deskconn-sock-dir
+    interface: content
     target: $SNAP_COMMON
