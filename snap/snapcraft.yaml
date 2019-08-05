@@ -1,4 +1,4 @@
-name: pigpio
+name: gpiod
 version: git
 summary: Control your Rasbperry Pi's GPIO pins remotely, in real-time
 description: |
@@ -13,12 +13,12 @@ architectures:
     run-on: armhf
 
 apps:
-  pigpio:
+  gpio:
     command: python3 -u $SNAP/pigpio.py
     plugs:
       - gpio
       - network
-  pigpiod:
+  gpiod:
     command: python3 -u $SNAP/pigpiod.py
     daemon: simple
     restart-condition: never
