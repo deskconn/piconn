@@ -12,7 +12,7 @@ if __name__ == '__main__':
     parser.add_argument("pin", type=int)
     args = parser.parse_args()
 
-    if os.environ.get("SNAP_NAME") != "pigpio":
+    if os.environ.get("SNAP_NAME") != "gpiod":
         os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
 
     transport = {
