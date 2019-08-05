@@ -48,7 +48,7 @@ plugs:
     interface: content
     target: $SNAP_COMMON/deskconnd-sock-dir
   deskconnd-runtime-dir:
-    content: runtime-dir
+    content: executables
     default-provider: deskconnd:runtime-dir
     interface: content
     target: $SNAP_COMMON/deskconnd-runtime-dir
