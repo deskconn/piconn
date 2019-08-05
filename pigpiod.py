@@ -8,7 +8,7 @@ import pygpio
 
 
 if __name__ == '__main__':
-    if os.environ.get("SNAP_NAME") != "pigpio":
+    if os.environ.get("SNAP_NAME") != "gpiod":
         os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
 
     transport = {
