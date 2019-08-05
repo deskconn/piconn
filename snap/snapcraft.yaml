@@ -12,6 +12,9 @@ architectures:
   - build-on: armhf
     run-on: armhf
 
+environment:
+  PYTHONPATH: PYTHONPATH:$SNAP_COMMON/deskconnd-runtime-dir
+
 apps:
   pigpio:
     command: python3 -u $SNAP/pigpio.py
@@ -37,20 +40,15 @@ parts:
   pigpio:
     plugin: python
     source: .
-    build-packages:
-      - libffi-dev
-      - libssl-dev
-    python-packages:
-      - autobahn[twisted,serialization]
-      - requests
-    override-prime: |
-      snapcraftctl prime
-      echo "Compiling pyc files..."
-      $SNAPCRAFT_PART_INSTALL/usr/bin/python3 -m compileall -q $SNAPCRAFT_PRIME
 
 plugs:
-  deskconn-sock-dir:
+  deskconnd-sock-dir:
     content: socket-directory
-    default-provider: deskconnd:deskconn-sock-dir
+    default-provider: deskconnd:sock-dir
     interface: content
-    target: $SNAP_COMMON
+    target: $SNAP_COMMON/deskconnd-sock-dir
+  deskconnd-runtime-dir:
+    content: runtime-dir
+    default-provider: deskconnd:runtime-dir
+    interface: content
+    target: $SNAP_COMMON/deskconnd-runtime-dir

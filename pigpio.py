@@ -13,13 +13,14 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if os.environ.get("SNAP_NAME") != "pigpio":
-        os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME/deskconnd-sock-dir')
+        os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
 
     transport = {
         "type": "rawsocket",
         "url": "ws://localhost/ws",
         "endpoint": UNIXClientEndpoint(reactor,
-                                       os.path.join(os.path.expandvars('$SNAP_COMMON'), 'deskconn.sock')),
+                                       os.path.join(os.path.expandvars('$SNAP_COMMON/deskconnd-sock-dir'),
+                                                    'deskconnd.sock')),
         "serializer": "cbor",
     }
 
