@@ -17,7 +17,7 @@ environment:
 
 apps:
   gpio:
-    command: ./pigpio.py
+    command: pigpio.py
     plugs:
       - gpio
       - network
