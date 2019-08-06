@@ -12,11 +12,11 @@ txaio.use_twisted()
 log = txaio.make_logger()
 
 
-def assemble(sock, reactor):
+def assemble():
     transport = {
         "type": "rawsocket",
         "url": "ws://localhost/ws",
-        "endpoint": UNIXClientEndpoint(reactor, sock),
+        "endpoint": UNIXClientEndpoint(reactor, sock_path),
         "serializer": "cbor",
     }
     component = Component(transports=[transport], realm="deskconn")
@@ -30,19 +30,7 @@ def assemble(sock, reactor):
         session.register(pygpio.get_state, "org.deskconn.gpio.get_state")
         session.register(pygpio.get_states, "org.deskconn.gpio.get_states")
 
-    @component.on_leave
-    def left(session, _):
-        log.info("disconnected from deskconnd")
-        enter_loop()
     return component
-
-
-def enter_loop():
-    while not os.path.exists(sock_path):
-        time.sleep(1)
-        log.debug("deskconnd not found, please make sure its installed and running.")
-
-    run([assemble(sock_path, reactor)])
 
 
 if __name__ == '__main__':
@@ -50,4 +38,9 @@ if __name__ == '__main__':
         os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
 
     sock_path = os.path.join(os.path.expandvars('$SNAP_COMMON/deskconnd-sock-dir'), 'deskconnd.sock')
-    enter_loop()
+    print("finding deskconnd...")
+    while not os.path.exists(sock_path):
+        time.sleep(1)
+    print("found, now connecting.")
+
+    run([assemble()])
