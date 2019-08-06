@@ -35,9 +35,9 @@ if __name__ == '__main__':
     @component.on_join
     async def join(session, _):
         if args.state == 'on':
-            procedure = 'org.deskconn.gpio.turn_on'
+            procedure = 'org.deskconn.gpio.set_out_high'
         else:
-            procedure = 'org.deskconn.gpio.turn_off'
+            procedure = 'org.deskconn.gpio.set_out_low'
 
         d = session.call(procedure, args.pin)
         d.addCallback(session.leave)
