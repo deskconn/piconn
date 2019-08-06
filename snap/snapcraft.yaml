@@ -17,12 +17,12 @@ environment:
 
 apps:
   gpio:
-    command: pigpio.py
+    command: cli.py
     plugs:
       - gpio
       - network
   gpiod:
-    command: pigpiod.py
+    command: daemon.py
     daemon: simple
     restart-condition: always
     plugs:
@@ -35,11 +35,11 @@ parts:
     plugin: dump
     source: .
     stage:
-      - pigpiod.py
-      - pigpio.py
+      - daemon.py
+      - cli.py
     prime:
-      - pigpiod.py
-      - pigpio.py
+      - daemon.py
+      - cli.py
 
 plugs:
   deskconnd-sock-dir:
