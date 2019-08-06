@@ -22,7 +22,7 @@ apps:
       - gpio
       - network
   gpiod:
-    command: python3 -u $SNAP/pigpiod.py
+    command: pigpiod.py
     daemon: simple
     restart-condition: always
     plugs:
@@ -37,9 +37,6 @@ parts:
     prime:
       - pigpiod.py
       - pigpio.py
-  pigpio:
-    plugin: python
-    source: .
 
 plugs:
   deskconnd-sock-dir:
