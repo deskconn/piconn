@@ -13,7 +13,7 @@ architectures:
     run-on: armhf
 
 environment:
-  PYTHONPATH: PYTHONPATH:$SNAP_COMMON/deskconnd-runtime-dir
+  PYTHONPATH: $PYTHONPATH:$SNAP_COMMON/deskconnd-runtime-dir
 
 apps:
   gpio:
@@ -47,8 +47,8 @@ plugs:
     default-provider: deskconnd:sock-dir
     interface: content
     target: $SNAP_COMMON/deskconnd-sock-dir
-  deskconnd-runtime-dir:
+  crossbar-runtime-dir:
     content: executables
-    default-provider: deskconnd:runtime-dir
+    default-provider: crossbar:runtime-dir
     interface: content
     target: $SNAP_COMMON/deskconnd-runtime-dir
