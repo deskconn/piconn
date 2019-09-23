@@ -1,8 +1,9 @@
-name: gpiod
+name: piconn
 version: git
-summary: Control your Rasbperry Pi's GPIO pins remotely, in real-time
+summary: Raspberry Pi's connection to things
 description: |
-  Control your Rasbperry Pi's GPIO pins remotely, in real-time
+  PiConn is a project that allows for remote control of
+  the Raspberry Pi
 
 grade: stable
 confinement: strict
@@ -21,7 +22,7 @@ apps:
     plugs:
       - gpio
       - network
-  gpiod:
+  piconnd:
     command: daemon.py
     daemon: simple
     restart-condition: always
