@@ -83,7 +83,7 @@ def assemble():
 
 
 if __name__ == '__main__':
-    if os.environ.get("SNAP_NAME") != "gpiod":
+    if os.environ.get("SNAP_NAME") != "piconn":
         os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
 
     sock_path = os.path.join(os.path.expandvars('$SNAP_COMMON/deskconnd-sock-dir'), 'deskconnd.sock')
