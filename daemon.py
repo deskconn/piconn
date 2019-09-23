@@ -21,7 +21,7 @@ GPIO_OUT_OFF = 1
 
 class GPIOComponent(ApplicationSession):
     async def onJoin(self, details):
-        self.register(self, prefix='org.deskconn.gpio.')
+        self.register(self, prefix='org.deskconn.piconn.gpio.')
 
     def _set(self, direction, pin_number, value):
         path = PATH_GPIO.format(pin_number)
@@ -39,13 +39,13 @@ class GPIOComponent(ApplicationSession):
     def set_out_high(self, pin_number):
         done = self._set('out', pin_number, GPIO_OUT_ON)
         if done:
-            self.publish('org.deskconn.gpio.on_out_high', pin_number)
+            self.publish('org.deskconn.piconn.gpio.on_out_high', pin_number)
 
     @wamp.register(None)
     def set_out_low(self, pin_number):
         done = self._set('out', pin_number, GPIO_OUT_OFF)
         if done:
-            self.publish('org.deskconn.gpio.on_out_low', pin_number)
+            self.publish('org.deskconn.piconn.gpio.on_out_low', pin_number)
 
     @wamp.register(None)
     def get_state(self, pin_number):
