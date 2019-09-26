@@ -52,4 +52,4 @@ plugs:
     content: executables
     default-provider: crossbar:runtime-dir
     interface: content
-    target: $SNAP_COMMON/deskconnd-runtime-dir
+    target: $SNAP_COMMON/crossbar-runtime-dir
