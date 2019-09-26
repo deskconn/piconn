@@ -14,7 +14,7 @@ architectures:
     run-on: armhf
 
 environment:
-  PYTHONPATH: $PYTHONPATH:$SNAP_COMMON/deskconnd-runtime-dir
+  PYTHONPATH: $PYTHONPATH:$SNAP_COMMON/crossbar-runtime-dir/lib/python3.6/site-packages
 
 apps:
   gpio:
