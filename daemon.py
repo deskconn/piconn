@@ -8,10 +8,6 @@ from autobahn.twisted.wamp import ApplicationSession
 from autobahn.twisted.component import Component, run
 from twisted.internet.endpoints import UNIXClientEndpoint
 from twisted.internet import reactor
-import txaio
-
-txaio.use_twisted()
-log = txaio.make_logger()
 
 BASE_GPIO = '/sys/class/gpio'
 PATH_GPIO = os.path.join(BASE_GPIO, 'gpio{}')
@@ -83,7 +79,14 @@ def assemble():
 
 
 if __name__ == '__main__':
-    if os.environ.get("SNAP_NAME") != "piconn":
+    if os.environ.get("SNAP_NAME") == "piconn":
+        crossbar = os.path.expandvars("$SNAP_COMMON/crossbar-runtime-dir/bin/crossbar")
+        if not os.path.exists(crossbar):
+            print("Waiting for crossbar runtime directory interface to connect")
+            while not os.path.exists(crossbar):
+                time.sleep(1)
+        print("Found crossbar runtime environment")
+    else:
         os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
 
     sock_path = os.path.join(os.path.expandvars('$SNAP_COMMON/deskconnd-sock-dir'), 'deskconnd.sock')
