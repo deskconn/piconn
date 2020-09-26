@@ -5,6 +5,7 @@ import os
 import sys
 
 from autobahn.twisted.component import Component, run
+from autobahn.wamp import ApplicationError
 from twisted.internet.endpoints import UNIXClientEndpoint
 from twisted.internet import reactor
 
@@ -16,9 +17,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if os.environ.get("SNAP_NAME") != "piconn":
-        os.environ['SNAP_COMMON'] = os.path.expandvars('$HOME')
+        sock_dir = os.path.expandvars('$HOME')
+    else:
+        sock_dir = os.path.join(os.path.expandvars('$SNAP_COMMON'), 'deskconn-sock-dir')
 
-    sock_path = os.path.join(os.path.expandvars('$SNAP_COMMON/deskconnd-sock-dir'), 'deskconnd.sock')
+    sock_path = os.path.join(sock_dir, 'deskconnd.sock')
     if not os.path.exists(sock_path):
         print("deskconnd not found, please make sure its installed and running.")
         sys.exit(1)
@@ -33,14 +36,23 @@ if __name__ == '__main__':
     component = Component(transports=[transport], realm="deskconn")
 
     @component.on_join
-    async def join(session, _):
+    async def joined(session, _details):
         if args.state == 'on':
             procedure = 'org.deskconn.piconn.gpio.set_out_high'
         else:
             procedure = 'org.deskconn.piconn.gpio.set_out_low'
 
-        d = session.call(procedure, args.pin)
-        d.addCallback(session.leave)
-        d.addErrback(session.leave)
+        try:
+            await session.call(procedure, args.pin)
+        except ApplicationError as e:
+            print(e)
+            pass
+        finally:
+            session.leave()
+
+    @component.on_connectfailure
+    async def failed(comp, reason):
+        print("Failed to connect to server")
+        comp.stop()
 
     run([component])

@@ -7,14 +7,14 @@ description: |
 
 grade: stable
 confinement: strict
-base: core18
+base: core20
 
 architectures:
   - build-on: armhf
     run-on: armhf
 
 environment:
-  PYTHONPATH: $PYTHONPATH:$SNAP_COMMON/crossbar-runtime-dir/lib/python3.6/site-packages
+  PYTHONPATH: $PYTHONPATH:$SNAP_COMMON/deskconn-runtime-dir/lib/python3.8/site-packages
 
 apps:
   gpio:
@@ -43,13 +43,13 @@ parts:
       - cli.py
 
 plugs:
-  deskconnd-sock-dir:
-    content: socket-directory
-    default-provider: deskconnd:sock-dir
+  deskconn-sock-dir:
+    content: sock-directory
+    default-provider: deskconnd:deskconn-sock-dir
     interface: content
-    target: $SNAP_COMMON/deskconnd-sock-dir
-  crossbar-runtime-dir:
+    target: $SNAP_COMMON/deskconn-sock-dir
+  deskconn-runtime-dir:
     content: executables
-    default-provider: crossbar:runtime-dir
+    default-provider: deskconnd:deskconn-runtime-dir
     interface: content
-    target: $SNAP_COMMON/crossbar-runtime-dir
+    target: $SNAP_COMMON/deskconn-runtime-dir
